@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Copperplate.ttc">
+            <string>Copperplate</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PokeCell" customModule="PokemonApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="134" height="201"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="134" height="201"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pokeball" translatesAutoresizingMaskIntoConstraints="NO" id="UUT-gr-XcL">
+                        <rect key="frame" x="0.0" y="0.0" width="134" height="133"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </imageView>
+                    <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="djJ-gP-ek7">
+                        <rect key="frame" x="18" y="125" width="96" height="46"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JvF-XM-OCp">
+                                <rect key="frame" x="25" y="8" width="46" height="30"/>
+                                <state key="normal" image="unfavorite"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="JvF-XM-OCp" firstAttribute="bottom" secondItem="djJ-gP-ek7" secondAttribute="bottomMargin" id="KT3-iT-6Y8"/>
+                            <constraint firstItem="JvF-XM-OCp" firstAttribute="top" secondItem="djJ-gP-ek7" secondAttribute="topMargin" id="aLU-OU-cBY"/>
+                            <constraint firstItem="JvF-XM-OCp" firstAttribute="leading" secondItem="djJ-gP-ek7" secondAttribute="leading" constant="25" id="qXd-Ta-6yC"/>
+                            <constraint firstItem="JvF-XM-OCp" firstAttribute="centerX" secondItem="djJ-gP-ek7" secondAttribute="centerX" id="zjt-og-DPZ"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6M7-Je-iXa">
+                        <rect key="frame" x="0.0" y="152" width="134" height="49"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="49" id="huW-VI-p37"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="21"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="djJ-gP-ek7" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="125" id="6I9-zR-ZAO"/>
+                <constraint firstAttribute="trailing" secondItem="djJ-gP-ek7" secondAttribute="trailing" constant="20" id="9Tc-oH-MuJ"/>
+                <constraint firstItem="UUT-gr-XcL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9ii-Qu-4lE"/>
+                <constraint firstItem="UUT-gr-XcL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="BZS-HI-rXA"/>
+                <constraint firstItem="UUT-gr-XcL" firstAttribute="trailing" secondItem="6M7-Je-iXa" secondAttribute="trailing" id="GB3-yL-NqV"/>
+                <constraint firstAttribute="bottom" secondItem="6M7-Je-iXa" secondAttribute="bottom" id="O9P-CJ-24d"/>
+                <constraint firstItem="UUT-gr-XcL" firstAttribute="leading" secondItem="6M7-Je-iXa" secondAttribute="leading" id="ZYU-Ap-leg"/>
+                <constraint firstAttribute="bottom" secondItem="djJ-gP-ek7" secondAttribute="bottom" constant="30" id="eeJ-p4-dKd"/>
+                <constraint firstAttribute="trailing" secondItem="UUT-gr-XcL" secondAttribute="trailing" id="j9b-lC-R59"/>
+                <constraint firstItem="6M7-Je-iXa" firstAttribute="top" secondItem="UUT-gr-XcL" secondAttribute="bottom" constant="19" id="rbB-lc-o0F"/>
+                <constraint firstItem="djJ-gP-ek7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="18" id="zT8-zk-LdP"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="170" height="280"/>
+            <connections>
+                <outlet property="label" destination="6M7-Je-iXa" id="4bU-lU-VIy"/>
+                <outlet property="sprite" destination="UUT-gr-XcL" id="PwH-yU-RBW"/>
+                <outlet property="viewFrame" destination="djJ-gP-ek7" id="cGp-hy-i9a"/>
+            </connections>
+            <point key="canvasLocation" x="-148" y="2.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="Pokeball" width="894" height="893"/>
+        <image name="unfavorite" width="30" height="21"/>
+    </resources>
+</document>
