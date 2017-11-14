@@ -185,3 +185,15 @@ struct PokemonHeldItemVersion {
     }
 }
 
+struct pokeFav {
+    var name = String()
+    var url = String()
+    var id = Int()
+    
+    init (name:String, url:String, id:Int) {
+        self.name = name
+        self.url = url
+        self.id = id
+    }
+}
+

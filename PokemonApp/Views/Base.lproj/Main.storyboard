@@ -87,12 +87,25 @@
                                 <rect key="frame" x="58" y="623" width="295" height="113"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1Xp-g5-Jfv">
+                                <rect key="frame" x="147" y="5" width="121" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Fav"/>
+                                    <segment title="Poke"/>
+                                </segments>
+                                <color key="tintColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="Change:" destination="BlT-zY-gYi" eventType="valueChanged" id="iH6-JK-BxJ"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="EZl-OU-C5k"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="ic5-cR-SdF" id="2D5-vg-MdW"/>
+                        <outlet property="segment" destination="1Xp-g5-Jfv" id="3EU-mw-dl1"/>
                         <segue destination="9ZE-sz-ioo" kind="presentation" identifier="showDetail" id="VM7-x9-way"/>
                     </connections>
                 </viewController>
