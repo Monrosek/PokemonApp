@@ -133,17 +133,32 @@
                     </view>
                     <navigationItem key="navigationItem" id="K13-jQ-OUL">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="ydT-Ym-aaV">
+                            <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="Return:" destination="A4J-Bb-0RT" id="V07-J4-poT"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="SCJ-eg-laD">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eyl-hf-3rR">
+                                <rect key="frame" x="283" y="7" width="111" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add to Favorites">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="1Yc-ic-1NI" kind="unwind" unwindAction="unwindToPokeListWithSender:" id="IdJ-Cc-pBG"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addFav" destination="eyl-hf-3rR" id="6ia-Tk-4ZD"/>
                         <outlet property="back" destination="ydT-Ym-aaV" id="asG-fJ-A6P"/>
                         <outlet property="tableView" destination="lEb-Je-esU" id="cRj-YZ-oDe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Asl-EW-Tvp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="1Yc-ic-1NI" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2322" y="130"/>
         </scene>

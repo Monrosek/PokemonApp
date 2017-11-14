@@ -20,6 +20,7 @@ class imageCell: UITableViewCell {
         }
     }
     
+    @IBOutlet var addfav: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

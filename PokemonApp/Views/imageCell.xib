@@ -47,11 +47,11 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWQ-AV-tu1">
-                        <rect key="frame" x="175" y="344" width="46" height="30"/>
+                        <rect key="frame" x="183" y="344" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="7o8-xT-d23"/>
                         </constraints>
-                        <state key="normal" title="Button" backgroundImage="unfavorite"/>
+                        <state key="normal" backgroundImage="unfavorite"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -69,11 +69,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="addfav" destination="qWQ-AV-tu1" id="Ga5-Zz-NwC"/>
                 <outlet property="label" destination="vcj-5v-aO8" id="lax-1w-Hh0"/>
                 <outlet property="sprite" destination="Ocp-Lq-3Am" id="8mx-R1-bgB"/>
                 <outlet property="viewFrame" destination="KE7-2M-uV7" id="6ei-91-lJZ"/>
             </connections>
-            <point key="canvasLocation" x="77" y="11.5"/>
+            <point key="canvasLocation" x="-321" y="68"/>
         </tableViewCell>
     </objects>
     <resources>

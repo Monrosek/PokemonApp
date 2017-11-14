@@ -7,10 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 class PokeCell: UICollectionViewCell {
     
-
     var poke:Pokemon?
     
     @IBOutlet var label: UILabel!
@@ -19,6 +19,7 @@ class PokeCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
         sprite?.layer.cornerRadius = 5
         sprite?.clipsToBounds = true
         sprite?.contentMode = .scaleAspectFit
@@ -33,7 +34,29 @@ class PokeCell: UICollectionViewCell {
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
-}
+    
+    
+//    private func saveToCoreData(pokemon:namedResource){
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        guard let entity = NSEntityDescription.entity(forEntityName: "PokemonEntity", in: managedContext) else {return}
+//        let poke = NSManagedObject(entity: entity, insertInto: managedContext)
+//        
+//        poke.setValue(pokemon.name, forKey: "name")
+//        poke.setValue(pokemon.url, forKey: "url")
+////
+////        do {
+//            try managedContext.save()
+//            pokemon.append(guy)
+//            tableView.reloadData()
+//        } catch let error {
+//            print(error.localizedDescription)
+//        }
+        
+    }
+    
+    
+
 
 
 

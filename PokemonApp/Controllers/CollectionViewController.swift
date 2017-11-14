@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class CollectionViewController: UIViewController {
     
     var index = Int()
     var resourceType = ResourceType.pokemon
     var resources:[namedResource] = []
+    var favorites:[NSManagedObject] = []
     
     @IBOutlet var collectionView: UICollectionView!
     override func viewDidLoad() {
@@ -34,6 +36,38 @@ class CollectionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+
+    private func saveToCoreData(poke:namedResource){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        guard let entity = NSEntityDescription.entity(forEntityName: "PokemonEntity", in: managedContext) else {return}
+        let data = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        data.setValue(poke.name, forKey: "name")
+        data.setValue(poke.url, forKey: "url")
+
+        do {
+            try managedContext.save()
+            favorites.append(data)
+            collectionView.reloadData()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func getFavorites(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<NSManagedObject>(entityName:"PokemonEntity")
+        
+        do {
+            favorites = try managedContext.fetch(request)
+            collectionView.reloadData()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
     
     
     // MARK: - Navigation
@@ -45,6 +79,16 @@ class CollectionViewController: UIViewController {
         if let NC = segue.destination as? UINavigationController {
             guard let VC = NC.viewControllers.first as? PokeViewController else {return}
             VC.resource = resources[index]
+        }
+    }
+    
+
+
+    @IBAction func unwindToPokeList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? PokeViewController {
+            if let rsrc = sourceViewController.resource {
+            saveToCoreData(poke: rsrc)
+            }
         }
     }
     
