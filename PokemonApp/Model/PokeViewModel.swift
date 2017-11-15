@@ -53,7 +53,7 @@ class PokeViewModel: NSObject {
             items.append(newItem)
         }
         if let abilities = poke.abilities {
-            let list = ListItem(list: abilities, "Abilities")
+            let list = ListItem(list: abilities, " Main Abilities")
             items.append(list)
         }
         
@@ -118,6 +118,9 @@ struct ListItem: Item {
     var list:[LabelItem] = []
     var type: itemType {
         return .list
+    }
+    var rowCount: Int {
+        return list.count
     }
     
     init(list: [Ability],_ section: String){

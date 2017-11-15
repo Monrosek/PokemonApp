@@ -24,7 +24,8 @@ class CollectionViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadUser()
+        //loadUser()
+        print("User UID: \(LoginInfo.shared.user?.uid)")
         self.getFavorites()
         
         NetworkService.getResourceList(ofType: resourceType) { (rsrcList, error) in
@@ -82,10 +83,9 @@ class CollectionViewController: UIViewController {
         let managedContext = appDelegate.persistentContainer.viewContext
         guard let entity = NSEntityDescription.entity(forEntityName: "PokeResource", in: managedContext) else {return}
         let data = NSManagedObject(entity: entity, insertInto: managedContext)
-
         data.setValue(poke.name, forKey: "name")
         data.setValue(poke.url, forKey: "url")
-        user?.setValue(data, forKey: "favorite")
+        data.setValue(LoginInfo.shared.user?.uid, forKey: "uid")
 
         do {
             try managedContext.save()
@@ -110,7 +110,7 @@ class CollectionViewController: UIViewController {
     
         let request = NSFetchRequest<NSManagedObject>(entityName:"PokeResource")
         guard let uid = LoginInfo.shared.user?.uid else {return}
-        request.predicate = NSPredicate(format: "ANY user.uid == %@", uid)
+        request.predicate = NSPredicate(format: "uid == %@", uid)
         
         do {
             favorites = try managedContext.fetch(request)

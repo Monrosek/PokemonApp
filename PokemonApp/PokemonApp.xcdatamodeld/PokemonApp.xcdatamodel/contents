@@ -2,15 +2,10 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13241" systemVersion="17B48" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="PokeResource" representedClassName="PokeResource" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserAccount" inverseName="favorite" inverseEntity="UserAccount" syncable="YES"/>
-    </entity>
-    <entity name="UserAccount" representedClassName="UserAccount" syncable="YES" codeGenerationType="class">
         <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="favorite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PokeResource" inverseName="user" inverseEntity="PokeResource" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PokeResource" positionX="54" positionY="-4" width="128" height="58"/>
-        <element name="UserAccount" positionX="-180" positionY="-103" width="128" height="58"/>
+        <element name="PokeResource" positionX="54" positionY="-4" width="128" height="90"/>
     </elements>
 </model>

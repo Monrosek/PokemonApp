@@ -117,18 +117,15 @@ extension PokeViewModel:UITableViewDataSource {
         case .sprites:
             print("Enter sprites")
             if let cell = tableView.dequeueReusableCell(withIdentifier: spritesCell.identifier, for: indexPath) as? spritesCell {
-                tableView.rowHeight = 294
+                tableView.rowHeight = 234
                 cell.item = item
               //  print("Sending Cell \(item.sectionTitle)")
                 return cell
             }
-        case .ability:
+        case .list:
             if let item = item as? ListItem, let cell = tableView.dequeueReusableCell(withIdentifier: listCell.identifier, for: indexPath) as? listCell {
-             
-                //var url = item.list[indexPath.row].url
-              //  item.list[indexPath.row].nameFrom(url: url)
                 cell.item = item.list[indexPath.row]
-                
+                tableView.rowHeight = CGFloat(26*item.list.count)
                 return cell
             }
         default: return cell
