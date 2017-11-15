@@ -100,8 +100,14 @@ class CollectionViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         managedContext.delete(favorites[index])
-        favorites.remove(at: index)
-        collectionView.reloadData()
+        
+        do {
+             favorites.remove(at: index)
+             try managedContext.save()
+             collectionView.reloadData()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     private func getFavorites(){
