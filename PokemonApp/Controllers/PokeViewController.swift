@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 class PokeViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet var back: UIBarButtonItem!
@@ -16,11 +16,12 @@ class PokeViewController: UIViewController, UITableViewDelegate {
     var viewModel:PokeViewModel?
     var poke:Pokemon?
     var resource:namedResource?
+    var controlLabel = String()
     
     @IBOutlet var addFav: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        addFav.titleLabel?.text = controlLabel
         guard let url = resource?.url else {return}
         NetworkService.getPokemon(from: url) { (poke,error) in
             guard error == nil else {return}
@@ -40,10 +41,14 @@ class PokeViewController: UIViewController, UITableViewDelegate {
         self.tableView.register(statsCell.nib, forCellReuseIdentifier: statsCell.identifier)
         self.tableView.register(typesCell.nib, forCellReuseIdentifier: typesCell.identifier)
         self.tableView.register(spritesCell.nib, forCellReuseIdentifier: spritesCell.identifier)
+        self.tableView.register(labelCell.nib, forCellReuseIdentifier: labelCell.identifier)
+        self.tableView.register(listCell.nib, forCellReuseIdentifier: listCell.identifier)
 
         
         print("items: \(self.viewModel?.items.count ?? 0)")
     }
+    
+
     
     @IBAction func Return(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -115,6 +120,15 @@ extension PokeViewModel:UITableViewDataSource {
                 tableView.rowHeight = 294
                 cell.item = item
               //  print("Sending Cell \(item.sectionTitle)")
+                return cell
+            }
+        case .ability:
+            if let item = item as? ListItem, let cell = tableView.dequeueReusableCell(withIdentifier: listCell.identifier, for: indexPath) as? listCell {
+             
+                //var url = item.list[indexPath.row].url
+              //  item.list[indexPath.row].nameFrom(url: url)
+                cell.item = item.list[indexPath.row]
+                
                 return cell
             }
         default: return cell

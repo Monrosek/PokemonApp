@@ -53,6 +53,8 @@ class LoginViewController: UIViewController {
             //UIAlertController
             //Check for his fingerprint is in the system
             KeychainWrapper.standard.set(self.passField.text!, forKey: k.PassKey)
+            self.performSegue(withIdentifier: "login", sender: self)
+
         }
     }
     
@@ -82,9 +84,7 @@ extension TextFieldDelegate: UITextFieldDelegate {
                 return false
             }
             logInToFirebase()
-            if LoginInfo.shared.isLoggedIn {
-                self.performSegue(withIdentifier: "login", sender: self)
-            }
+           
             
         } else {
             

@@ -23,12 +23,15 @@ struct namedResource: resource {
     var name:String = String()
     var url:String = String()
     
+    init(_ name:String, _ url:String){
+        self.name = name
+        self.url = url
+    }
     init?(_ dict:[String:Any]) {
         guard let name = dict["name"] as? String,
             let url = dict["url"] as? String
             else {return nil}
-        self.name = name
-        self.url = url
+        self.init(name,url)
     }
 }
 
@@ -93,9 +96,11 @@ struct GenerationGameIndex {
     }
 }
 
-enum pokeView {
-    case all
-    case typed
-    
-}
+var stringsAsInts: [String:Int] = [
+    "zero" : 0,
+    "zero":1,
+    "zero" : 2,
+    "two" : 3
+]
+
 

@@ -108,7 +108,7 @@ class statsCell: UITableViewCell {
     @IBOutlet var EVAbars: [UIView]!
     
     var maxStat:Double = 255.0
-    var barColor:UIColor = .blue
+    var barColor:UIColor = UIColor(red:43, green: 111, blue:182)
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

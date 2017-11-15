@@ -14,6 +14,8 @@ enum itemType {
     case sprites
     case type
     case ability
+    case label
+    case list
 }
 
 protocol Item {
@@ -50,7 +52,10 @@ class PokeViewModel: NSObject {
             let newItem = SpritesItem(sprites)
             items.append(newItem)
         }
-
+        if let abilities = poke.abilities {
+            let list = ListItem(list: abilities, "Abilities")
+            items.append(list)
+        }
         
     }
 }
@@ -90,6 +95,42 @@ struct TypesItem: Item {
         types.forEach{self.types.append($0)}
     }
     
+}
+
+struct LabelItem: Item {
+    var resource:namedResource
+    var sectionTitle = String()
+    var type: itemType {
+        return .label
+    }
+    
+    init(name:String, url:String) {
+        self.resource = namedResource(name,url)
+    }
+    
+     init(_ res: namedResource) {
+        self.resource = res
+    }
+}
+
+struct ListItem: Item {
+    var sectionTitle = String()
+    var list:[LabelItem] = []
+    var type: itemType {
+        return .list
+    }
+    
+    init(list: [Ability],_ section: String){
+        self.sectionTitle = section
+        for item in list {
+            if let ability = item.ability {
+                var litem = LabelItem(ability)
+                litem.sectionTitle = section
+                self.list.append(litem)
+            }
+
+        }
+    }
 }
 
 struct SpritesItem : Item{

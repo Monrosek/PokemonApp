@@ -36,7 +36,6 @@ class typesCollectionCell: UICollectionViewCell {
             default: return
             }
         }
-        
     }
     @IBOutlet var label: UILabel!
     override func awakeFromNib() {

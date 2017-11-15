@@ -18,11 +18,13 @@ class CollectionViewController: UIViewController {
     var resourceType = ResourceType.pokemon
     var resources:[namedResource] = []
     var favorites:[NSManagedObject] = []
+    var user:NSManagedObject?
     
     @IBOutlet var segment: UISegmentedControl!
     @IBOutlet var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadUser()
         self.getFavorites()
         
         NetworkService.getResourceList(ofType: resourceType) { (rsrcList, error) in
@@ -41,17 +43,49 @@ class CollectionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    private func saveToCoreData(poke:pokeFav){
+    
+    private func loadUser() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
-        guard let entity = NSEntityDescription.entity(forEntityName: "PokemonEntity", in: managedContext) else {return}
+        let request = NSFetchRequest<NSManagedObject>(entityName:"UserAccount")
+        guard let uid = LoginInfo.shared.user?.uid else {return}
+        print("User UID: \(uid)")
+        request.predicate = NSPredicate(format: "uid == %@", uid)
+        
+        do {
+                let users = try managedContext.fetch(request)
+                if users.count > 0{
+                     user = users.first
+                }
+                else
+                {
+                    guard let entity = NSEntityDescription.entity(forEntityName: "UserAccount", in: managedContext) else {return}
+                    let data = NSManagedObject(entity: entity, insertInto: managedContext)
+                    data.setValue(uid, forKey: "uid")
+                    
+                    do {
+                        try managedContext.save()
+                        user = data
+                        collectionView.reloadData()
+                    } catch let error {
+                        print(error.localizedDescription)
+                }
+                    
+                }
+            } catch let error {
+            print(error.localizedDescription)
+         }
+    }
+
+    private func saveToCoreData(poke:namedResource){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        guard let entity = NSEntityDescription.entity(forEntityName: "PokeResource", in: managedContext) else {return}
         let data = NSManagedObject(entity: entity, insertInto: managedContext)
 
         data.setValue(poke.name, forKey: "name")
         data.setValue(poke.url, forKey: "url")
-        data.setValue(poke.id, forKey: "id")
-
+        user?.setValue(data, forKey: "favorite")
 
         do {
             try managedContext.save()
@@ -62,10 +96,21 @@ class CollectionViewController: UIViewController {
         }
     }
     
+    private func deleteFromCoreData(index:Int) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(favorites[index])
+        favorites.remove(at: index)
+        collectionView.reloadData()
+    }
+    
     private func getFavorites(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSManagedObject>(entityName:"PokemonEntity")
+    
+        let request = NSFetchRequest<NSManagedObject>(entityName:"PokeResource")
+        guard let uid = LoginInfo.shared.user?.uid else {return}
+        request.predicate = NSPredicate(format: "ANY user.uid == %@", uid)
         
         do {
             favorites = try managedContext.fetch(request)
@@ -73,6 +118,13 @@ class CollectionViewController: UIViewController {
         } catch let error {
             print(error.localizedDescription)
         }
+    }
+    
+    private func getFavoriteResource(_ index:Int) ->namedResource? {
+        let data = favorites[index]
+        guard let name = data.value(forKeyPath: "name") as? String else {return nil}
+        guard let url = data.value(forKeyPath: "url") as? String else {return nil}
+        return namedResource(name,url)
     }
 
     
@@ -85,22 +137,32 @@ class CollectionViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if let NC = segue.destination as? UINavigationController {
             guard let VC = NC.viewControllers.first as? PokeViewController else {return}
-            VC.resource = resources[index]
+            if(segment.selectedSegmentIndex == 1) {
+                VC.addFav.setTitle("Remove from Favorites", for: .normal)
+                VC.resource = getFavoriteResource(index)
+              }
+            else {
+                VC.addFav.setTitle("Add to Favorites", for: .normal)
+                VC.resource = resources[index]
+            }
         }
     }
     
     @IBAction func Change(_ sender: Any) {
-        if let seg = sender as? UISegmentedControl {
+        if sender is UISegmentedControl {
             collectionView.reloadData()
         }
     }
     
-
     @IBAction func unwindToPokeList(sender: UIStoryboardSegue) {
-        if let SVC = sender.source as? PokeViewController {
-            guard let resour = SVC.resource else {return}
-            guard let poke = SVC.poke else {return}
-            saveToCoreData(poke: pokeFav(name:resour.name, url:resour.url, id: poke.id ?? 0))
+        print("Unwinding Segue w/ index: \(index)")
+        if sender.source is PokeViewController {
+            if segment.selectedSegmentIndex == 0 {
+                saveToCoreData(poke: resources[index])
+            }
+            else {
+                deleteFromCoreData(index: index)
+            }
         }
     }
     
@@ -115,7 +177,7 @@ extension PokeCollection: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
       //  print("#OfPokemonLoaded: \(resources.count)")
-        if segment.selectedSegmentIndex == 0 {
+        if segment.selectedSegmentIndex == 1 {
             return favorites.count
         }
             else {
@@ -125,14 +187,15 @@ extension PokeCollection: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if segment.selectedSegmentIndex == 0 {
+        if segment.selectedSegmentIndex == 1 {
            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokeCell", for: indexPath) as? PokeCell {
             let data = favorites[indexPath.row]
             guard let name = data.value(forKeyPath: "name") as? String else {return cell}
+            guard let url = data.value(forKeyPath: "url") as? String else {return cell}
+            let img = URL(string: url)?.lastPathComponent ?? ""
             cell.label?.text = "\(name)"
-            guard let img = data.value(forKey: "id") as? Int else {return cell}
             cell.sprite.image = UIImage(named: "temp")
-            cell.sprite.imageFrom(url: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(img).png")
+            cell.sprite.imageFrom(url: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+img+".png")
 
             return cell
             }
@@ -165,13 +228,11 @@ extension PokeCollection: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if( segment.selectedSegmentIndex == 1) {
+      //  if(segment.selectedSegmentIndex)
         index = indexPath.row
-        print("Performing Segue")
-        self.performSegue(withIdentifier: "showDetail", sender: self)
-        // print("unit Print: " + units[unitIndex].name)
-        }
+          print("Performing Segue w/ index: \(index)")
+          self.performSegue(withIdentifier: "showDetail", sender: self)
+           // print("unit Print: " + units[unitIndex].name)
     }
     
 }
